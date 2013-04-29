@@ -52,8 +52,16 @@ void init_text_layer(TextLayer *layer, int16_t top, uint32_t font_res_id) {
 #define leap_year( x ) ((x) % 400 == 0 || (((x) % 4) == 0 && (x) % 100))
 
 
+/*
+ * We can't use sprintf() to build the Discordian date string because it isn't
+ * completely implemented. To get around this, we have a custom function to
+ * build a decimal string representation of an integer (maximum four digits)
+ * and use strcat() to glue everything together.
+ */
+
 char *int_to_str(int16_t num) {
-    // This is from a Discordian date, so we have a maximum of four digits for the next six and a half thousand years.
+    // This is from a Discordian date, so we have a maximum of four digits for
+    // the next six and a half thousand years.
     static char text_num[] = "0000";
 
     for (int i = 3; i >= 0; i--) {
@@ -76,15 +84,20 @@ void mk_discordian_date(char* ddate_text, PblTm *tick_time) {
 
     if (leap_year(tick_time->tm_year)) {
         if (dday == 60) {
+            // Ideally, we'd use sprintf() instead of all the strcat()ing.
+            /* sprintf(ddate_text, "\nSt. Tib's Day\n%d YOLD", dyear); */
             strcat(ddate_text, "\nSt. Tib's Day\n");
             strcat(ddate_text, int_to_str(dyear));
             strcat(ddate_text, " YOLD");
-            //sprintf(ddate_text, "\nSt. Tib's Day\n%d YOLD", dyear);
             return;
         } else if (dday > 60) {
             --dday;
         }
     }
+
+    // Ideally, we'd use sprintf() instead of all the strcat()ing.
+    /* sprintf(ddate_text, "%s\n%s %d\n%d YOLD", */
+    /*         dweekday(dday % 5), dseason(dday / 73), ddate(dday), dyear); */
 
     strcat(ddate_text, dweekday(dday % 5));
     strcat(ddate_text, "\n");
@@ -95,7 +108,6 @@ void mk_discordian_date(char* ddate_text, PblTm *tick_time) {
     strcat(ddate_text, int_to_str(dyear));
     strcat(ddate_text, " YOLD");
 
-    //sprintf(ddate_text, "%s\n%s %d\n%d YOLD", dweekday(dday % 5), dseason(dday / 73), ddate(dday), dyear);
 };
 
 
@@ -127,7 +139,6 @@ void display_time(PblTm *tick_time) {
 
     string_format_time(date_text, sizeof(date_text), "%e %B\n%A", tick_time);
     mk_discordian_date(ddate_text, tick_time);
-    // TODO: Discordian date.
 
     text_layer_set_text(&text_time_layer, time_text);
     text_layer_set_text(&text_date_layer, date_text);
