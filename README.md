@@ -7,7 +7,7 @@ Pebble watch face that displays the current
 This project basically exists because I wanted to play with my shiny new
 Pebble.
 
-MIT licensed. See the LICENSE file fir details.
+MIT licensed. See the LICENSE file for details.
 
 Making it work
 --------------
