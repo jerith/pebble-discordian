@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 #include "pebble_os.h"
 #include "pebble_app.h"
 #include "pebble_fonts.h"
@@ -41,10 +39,10 @@ void init_text_layer(TextLayer *layer, int16_t top, uint32_t font_res_id) {
                      (x) == 3 ? "Bureaucracy" : \
                      "The Aftermath")
 
-#define dweekday( x ) ((x) == 0 ? "Sweetmorn" :       \
-                       (x) == 1 ? "Boomtime" :        \
-                       (x) == 2 ? "Pungenday" :       \
-                       (x) == 3 ? "Prickle-Prickle" : \
+#define dweekday( x ) ((x) == 1 ? "Sweetmorn" :       \
+                       (x) == 2 ? "Boomtime" :        \
+                       (x) == 3 ? "Pungenday" :       \
+                       (x) == 4 ? "Prickle-Prickle" : \
                        "Setting Orange")
 
 #define ddate( x ) ((x)%73 == 0 ? 73 : (x)%73)
@@ -78,7 +76,7 @@ char *int_to_str(int16_t num) {
 
 void mk_discordian_date(char* ddate_text, PblTm *tick_time) {
     int dyear = tick_time->tm_year + 1900 + 1166;
-    int dday = tick_time->tm_yday;
+    int dday = tick_time->tm_yday + 1;
 
     ddate_text[0] = '\0';
 
@@ -86,7 +84,7 @@ void mk_discordian_date(char* ddate_text, PblTm *tick_time) {
         if (dday == 60) {
             // Ideally, we'd use sprintf() instead of all the strcat()ing.
             /* sprintf(ddate_text, "\nSt. Tib's Day\n%d YOLD", dyear); */
-            strcat(ddate_text, "\nSt. Tib's Day\n");
+            strcat(ddate_text, "St. Tib's Day\n-------------\n");
             strcat(ddate_text, int_to_str(dyear));
             strcat(ddate_text, " YOLD");
             return;

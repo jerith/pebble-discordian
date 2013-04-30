@@ -31,11 +31,16 @@ Then change into the repository and configure and build:
 Follow instructions from the SDK documentation to install the watch face onto
 your wrist.
 
+TODO
+----
+
+ * Named holidays instead of dates.
+
 Bugs and issues
 ---------------
 
-There are no known bugs, because I haven't figured out how to write unit tests
-for Pebble projects.
+There are no other known bugs, because I haven't figured out how to write unit
+tests for Pebble projects.
 
 Some of the code (mostly building strings) is a bit convoluted due to
 limitations in the runtime environment that preclude certain operations.
