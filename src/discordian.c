@@ -156,8 +156,8 @@ void handle_init(AppContextRef ctx) {
     resource_init_current_app(&APP_RESOURCES);
 
     init_text_layer(&text_ddate_layer, 4, RESOURCE_ID_FONT_ROBOTO_CONDENSED_19);
-    init_text_layer(&text_time_layer, 64, RESOURCE_ID_FONT_ROBOTO_BOLD_SUBSET_49);
-    init_text_layer(&text_date_layer, 126, RESOURCE_ID_FONT_ROBOTO_CONDENSED_19);
+    init_text_layer(&text_time_layer, 60, RESOURCE_ID_FONT_ROBOTO_BOLD_SUBSET_49);
+    init_text_layer(&text_date_layer, 116, RESOURCE_ID_FONT_ROBOTO_CONDENSED_19);
 
     get_time(&init_time);
     display_time(&init_time);
