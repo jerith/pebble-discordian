@@ -4,15 +4,23 @@
     "media": [
         {
             "type": "font",
-            "defName": "FONT_ROBOTO_CONDENSED_19",
-            "file": "fonts/Roboto-Condensed.ttf"
+            "file": "fonts/Berkshire_Swash/BerkshireSwash-Regular.ttf",
+            "characterRegex": "[ '.0123456789ABCDLOPSTYabcdefghiklmnorstuwy-]",
+            "defName": "FONT_DISCORDIAN_DATE_19"
         },
 
         {
             "type": "font",
+            "file": "fonts/Droid_Sans/DroidSans.ttf",
+            "characterRegex": "[ 0123456789ADFJMNOSTWabcdeghilmnoprstuvy]",
+            "defName": "FONT_GREGORIAN_DATE_19"
+        },
+
+        {
+            "type": "font",
+            "file": "fonts/Berkshire_Swash/BerkshireSwash-Regular.ttf",
             "characterRegex": "[:0-9]",
-            "defName": "FONT_ROBOTO_BOLD_SUBSET_49",
-            "file": "fonts/Roboto-Bold.ttf"
+            "defName": "FONT_TIME_49"
         }
     ]
 }

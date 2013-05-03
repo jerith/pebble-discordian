@@ -14,7 +14,7 @@ Window window;
 
 TextLayer text_ddate_layer;
 TextLayer text_time_layer;
-TextLayer text_date_layer;
+TextLayer text_gdate_layer;
 
 
 #define DD_BG_COLOR GColorBlack
@@ -83,7 +83,7 @@ void mk_discordian_date(char* ddate_text, PblTm *tick_time) {
     if (leap_year(tick_time->tm_year)) {
         if (dday == 60) {
             // Ideally, we'd use sprintf() instead of all the strcat()ing.
-            /* sprintf(ddate_text, "\nSt. Tib's Day\n%d YOLD", dyear); */
+            /* sprintf(ddate_text, "St. Tib's Day\n-------------\n%d YOLD", dyear); */
             strcat(ddate_text, "St. Tib's Day\n-------------\n");
             strcat(ddate_text, int_to_str(dyear));
             strcat(ddate_text, " YOLD");
@@ -109,10 +109,25 @@ void mk_discordian_date(char* ddate_text, PblTm *tick_time) {
 };
 
 
+void mk_gregorian_date(char* gdate_text, PblTm *tick_time) {
+    char date_buf[] = "99 Mmm";
+
+    string_format_time(gdate_text, sizeof(gdate_text), "%a", tick_time);
+    strcat(gdate_text, " ");
+
+    string_format_time(date_buf, sizeof(date_buf), "%e %b", tick_time);
+    if (date_buf[0] == ' ' || date_buf[0] == '0') {
+        strcat(gdate_text, &date_buf[1]);
+    } else {
+        strcat(gdate_text, date_buf);
+    }
+};
+
+
 void display_time(PblTm *tick_time) {
     // Static, because we pass them to the system.
-    static char time_text[] = "00:00";
-    static char date_text[] = "30 September\nWednesday";
+    static char time_text[] = "99:99";
+    static char gdate_text[] = "Ddd 99 Mmm";
     static char ddate_text[] = "Prickle-Prickle\nThe Aftermath 39\n3179 YOLD";
 
     char *time_format;
@@ -129,17 +144,17 @@ void display_time(PblTm *tick_time) {
 
     // Kludge to handle lack of non-padded hour format string
     // for twelve hour clock.
-    if (!clock_is_24h_style() && (time_text[0] == '0')) {
+    if (!clock_is_24h_style() && ((time_text[0] == '0') || time_text[0] == ' ')) {
         memmove(time_text, &time_text[1], sizeof(time_text) - 1);
     }
 
-    // Calculate date.
+    // Calculate dates.
 
-    string_format_time(date_text, sizeof(date_text), "%e %B\n%A", tick_time);
+    mk_gregorian_date(gdate_text, tick_time);
     mk_discordian_date(ddate_text, tick_time);
 
     text_layer_set_text(&text_time_layer, time_text);
-    text_layer_set_text(&text_date_layer, date_text);
+    text_layer_set_text(&text_gdate_layer, gdate_text);
     text_layer_set_text(&text_ddate_layer, ddate_text);
 }
 
@@ -155,9 +170,9 @@ void handle_init(AppContextRef ctx) {
 
     resource_init_current_app(&APP_RESOURCES);
 
-    init_text_layer(&text_ddate_layer, 4, RESOURCE_ID_FONT_ROBOTO_CONDENSED_19);
-    init_text_layer(&text_time_layer, 60, RESOURCE_ID_FONT_ROBOTO_BOLD_SUBSET_49);
-    init_text_layer(&text_date_layer, 116, RESOURCE_ID_FONT_ROBOTO_CONDENSED_19);
+    init_text_layer(&text_ddate_layer, 4, RESOURCE_ID_FONT_DISCORDIAN_DATE_19);
+    init_text_layer(&text_time_layer, 65, RESOURCE_ID_FONT_TIME_49);
+    init_text_layer(&text_gdate_layer, 135, RESOURCE_ID_FONT_GREGORIAN_DATE_19);
 
     get_time(&init_time);
     display_time(&init_time);
