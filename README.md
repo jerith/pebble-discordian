@@ -4,8 +4,7 @@ pebble-discordian
 Pebble watch face that displays the current
 [Discordian](https://en.wikipedia.org/wiki/Discordianism) date. Fnord!
 
-This project basically exists because I wanted to play with my shiny new
-Pebble.
+![screenshot](screenshots/discordian-2013-05-07-23.png)
 
 Build status: ![status](https://cloudpebble.net/ide/project/1231/status.png)
 
